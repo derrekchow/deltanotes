@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import "./Editor.scss"
+
+import './Editor.scss'
 
 const icons = ReactQuill.Quill.import('ui/icons')
 icons['link'] = '<i class="material-icons md-18">link</i>'
@@ -21,10 +22,8 @@ class Editor extends React.Component {
 
 	constructor(props) {
 		super(props)
-		console.log(icons)
-		
 		const color_list = this.props.colors
-		const delta = [
+		const delta_placeholder = [
 		  { insert: 'Foreground Base Color: ' + color_list['fore'] },
 		  { insert: ' ▣\n', attributes: {color: color_list['fore']} },
 
@@ -48,9 +47,8 @@ class Editor extends React.Component {
 
 		  { insert: 'Underline Text Color: ' + color_list['underline']},
 		  { insert: ' ▣\n', attributes: {color: color_list['underline']} },
-		  
-		];
-		this.state = { text: delta, colors: color_list } // You can also pass a Quill Delta here
+		]
+		this.state = { text: delta_placeholder, colors: color_list } // You can also pass a Quill Delta here
 		this.handleChange = this.handleChange.bind(this)
 	}
 

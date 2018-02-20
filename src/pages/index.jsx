@@ -27,9 +27,14 @@ function makeColors(hex) {
 	}
 }
 
-const colors = makeColors(themes['material_dark'])
-
 class NotePage extends React.Component {
+
+	constructor(props) {
+		super(props)
+		this.state = {
+			colors: makeColors(themes['material_light'])
+		}
+	}
 
 	componentWillMount() {
 		const link = document.createElement("link")
@@ -40,8 +45,8 @@ class NotePage extends React.Component {
 
 	changeTheme() {
 		const css = document.getElementById('css')
-		console.log(css)
-		const style = 'body{background-color:' + colors['back'] + '} strong{color:' + colors['bold'] + '} em{color: ' + colors['italic'] + '} u{color:'+ colors['underline'] + '} h1{color:' + colors['h1'] + '} h2{color:' + colors['h2'] + '} .material-icons, .md-icon-text{color:'+ colors['normal'] +'} .ql-snow a, .ql-active .material-icons, .material-icons:hover{color:' + colors['select'] + '}'
+		const colors = this.state.colors
+		const style = 'body{background-color:' + colors['back'] + '} strong{color:' + colors['bold'] + '} em{color: ' + colors['italic'] + '} u{color:'+ colors['underline'] + '} h1{color:' + colors['h1'] + '} h2{color:' + colors['h2'] + '} h3, h4, h5, h6, .material-icons,.md-icon, .md-icon-text{color:'+ colors['normal'] +'} .md-text--theme-primary .md-icon, .md-text{color:' + colors['normal'] + '!important} .ql-snow a, .ql-active .material-icons, .material-icons:hover{color:' + colors['select'] + '}.md-list {background-color:' + colors['fore'] + '}'
 		css.innerHTML = style
 	}
 
@@ -53,8 +58,8 @@ class NotePage extends React.Component {
 		return (
 			<div>
 				<style id="css"></style>
-				<NavBar colors={colors}/>
-			 	<Editor id="editor" colors={colors}/>
+				<NavBar colors={this.state.colors}/>
+			 	<Editor id="editor" colors={this.state.colors}/>
 			</div>
 		)
 	}

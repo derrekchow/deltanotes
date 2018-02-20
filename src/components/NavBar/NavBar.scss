@@ -3,6 +3,17 @@
 @include react-md-icons;
 @include react-md-drawers;
 @include react-md-toolbars;
+@include react-md-menus;
+@include react-md-lists;
+@include react-md-transitions;
+@include react-md-dividers;
+
+@include react-md-papers;
+@include react-md-layovers;
+
+.md-btn--color-primary-active {
+	background-color:rgba(0, 0, 0, 0.1) !important;
+}
 
 nav {
 	padding: .7em;
@@ -18,7 +29,12 @@ nav {
 		vertical-align: middle;
 	}
 	.md-btn--icon {
-		margin-right:10px;
+		margin-right:3em;
+	}
+	#change_theme {
+		position:absolute;
+		top:.7em;
+		left:3em;
 	}
 	#title {
 		font-weight: bold;
@@ -34,17 +50,20 @@ nav {
 	height:auto;
 	#drawer-header {
 		border-bottom: 1px solid rgba(0,0,0, 0.1);
+		z-index: 10;
 		height:3.6em;
-		margin-bottom:1em;
 		#close {
 			position: absolute;
-			right:0;
+			right:-2.3em;
 		}
-	}
-	#login {
-		position: absolute;
-		bottom:0;
-		margin:1em;
+		#add {
+			position:absolute;
+			bottom:0;
+			right:1.5em;
+		}
+		#login {
+			margin-left: 1em;
+		}
 	}
 }
 

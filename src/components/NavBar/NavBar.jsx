@@ -2,24 +2,23 @@ import React from 'react'
 import Link from 'gatsby-link'
 
 import './NavBar.scss'
-import { Button, Drawer, Toolbar } from 'react-md'
+import { Button, Drawer, Toolbar, ListItem, MenuButton, FontIcon } from 'react-md'
 
 class NavBar extends React.Component {
 
   constructor(props) {
     super(props)
+    this.colors = Object(this.props.colors);
     this.state = {
-      colors: Object(this.props.colors),
-      visible: false, 
+      visible: false
     }
   }
 
   renderColors() {
     const options = []
-    console.log(this.state.colors)
-    const cObject = this.state.colors;
-    Object.keys(cObject).map(function(key) {
-      options.push(<option value={cObject[key]}></option>)
+    const colors = this.colors
+    Object.keys(colors).map(function(key) {
+      options.push(<option value={colors[key]}></option>)
     })
     return options
   }
@@ -40,24 +39,44 @@ class NavBar extends React.Component {
     const { visible } = this.state
 
     const closeBtn = <Button id="close" icon onClick={this.closeDrawer}>arrow_back</Button>
-    const addBtn = <Button id="add" flat primary iconChildren="add">New Note</Button>
-
-    const navItems = ([<h4>Hello</h4>, <h4>hi</h4>])
+    const addBtn = <Button id="add" raised iconChildren="create">New Note</Button>
+    const login = <Button id="login" flat iconChildren="person">Login</Button>
+    
+    const navItems = ([
+      <ListItem primaryText="Solarized Light" />,
+      <ListItem primaryText="Solarized Dark" />,
+      <ListItem primaryText="Material Light" />,
+      <ListItem primaryText="Material Dark" />
+    ])
 
     return (
       <div>
         <nav style={{
-            backgroundColor: this.state.colors['fore'],
-            color: this.state.colors['normal'],
+            backgroundColor: this.colors['fore'],
+            color: this.colors['normal'],
           }}>
-          <Button className="nav-item" onClick={this.openDrawerLeft} icon>
+          <Button icon className="nav-item" onClick={this.openDrawerLeft}>
             menu
           </Button>
+          <MenuButton
+            icon
+            className="nav-item"
+            id="change_theme"
+            anchor={{
+              x: MenuButton.HorizontalAnchors.INNER_LEFT,
+              y: MenuButton.VerticalAnchors.TOP,
+            }}
+            position={MenuButton.Positions.TOP_LEFT}
+            
+            menuItems={navItems}
+            >
+            color_lens
+          </MenuButton>
           <p id="title" className="nav-item">
               <Link
                 to="/"
                 style={{
-                  color: this.state.colors['normal'],
+                  color: this.colors['normal'],
                   textDecoration: 'none',
                 }}
               >
@@ -85,7 +104,7 @@ class NavBar extends React.Component {
         <Drawer
             id="drawer"
             style={{
-              backgroundColor: this.state.colors['fore'],
+              backgroundColor: this.colors['fore'],
               padding:0
             }}
             type={Drawer.DrawerTypes.TEMPORARY}
@@ -97,8 +116,9 @@ class NavBar extends React.Component {
               <div>
                 <Toolbar
                   nav={closeBtn}
-                  actions={addBtn}
+                  actions={[addBtn, login]}
                   id="drawer-header"
+                  className="md-divider-border md-divider-border--bottom"
                 />
               </div>
             )}
