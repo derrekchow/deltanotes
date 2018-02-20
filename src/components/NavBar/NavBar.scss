@@ -1,0 +1,50 @@
+@import '~react-md/src/scss/react-md';
+@include react-md-buttons;
+@include react-md-icons;
+@include react-md-drawers;
+@include react-md-toolbars;
+
+nav {
+	padding: .7em;
+	border-bottom: 1px solid rgba(0,0,0, 0.2);
+	box-shadow: 0 1px 4px 0 rgba(0,0,0, 0.1);
+	position: fixed;
+	height:3.6em;
+	width: 100%;
+	z-index: 1;
+	font-size:18px;
+	.nav-item {
+		display: inline;
+		vertical-align: middle;
+	}
+	.md-btn--icon {
+		margin-right:10px;
+	}
+	#title {
+		font-weight: bold;
+		font-size: 18px;
+	}
+	#toolbar {
+		border: none;
+		float: right;
+	}
+}
+
+#drawer {
+	height:auto;
+	#drawer-header {
+		border-bottom: 1px solid rgba(0,0,0, 0.1);
+		height:3.6em;
+		margin-bottom:1em;
+		#close {
+			position: absolute;
+			right:0;
+		}
+	}
+	#login {
+		position: absolute;
+		bottom:0;
+		margin:1em;
+	}
+}
+
