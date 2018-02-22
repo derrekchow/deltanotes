@@ -13,26 +13,28 @@ const themes = {
 	material_light: ["#CFD8DC", "#B0BEC5", "#37474F", "#3F51B5", "#673AB7", "#E91E63", "#00BCD4", "#4CAF50", "#03A9F4"]
 }
 
-function makeColors(hex) {
-	return {
-		fore: hex[0],
-		back: hex[1],
-		normal: hex[2],
-		h1: hex[3],
-		h2: hex[4],
-		bold: hex[5],
-		italic: hex[6],
-		underline: hex[7],
-		select: hex[8]
-	}
-}
-
 class NotePage extends React.Component {
 
 	constructor(props) {
 		super(props)
+		const current_theme = "material_dark"
 		this.state = {
-			colors: makeColors(themes['material_light'])
+			colors: this.makeColors(themes[current_theme]),
+			current_theme: current_theme
+		}
+	}
+
+	makeColors(hex) {
+		return {
+			fore: hex[0],
+			back: hex[1],
+			normal: hex[2],
+			h1: hex[3],
+			h2: hex[4],
+			bold: hex[5],
+			italic: hex[6],
+			underline: hex[7],
+			select: hex[8]
 		}
 	}
 
@@ -43,11 +45,23 @@ class NotePage extends React.Component {
 		document.body.prepend(link)
 	}
 
+	componentDidUpdate() {
+		this.changeTheme()
+	}
+
 	changeTheme() {
 		const css = document.getElementById('css')
-		const colors = this.state.colors
-		const style = 'body{background-color:' + colors['back'] + '} strong{color:' + colors['bold'] + '} em{color: ' + colors['italic'] + '} u{color:'+ colors['underline'] + '} h1{color:' + colors['h1'] + '} h2{color:' + colors['h2'] + '} h3, h4, h5, h6, .material-icons,.md-icon, .md-icon-text{color:'+ colors['normal'] +'} .md-text--theme-primary .md-icon, .md-text{color:' + colors['normal'] + '!important} .ql-snow a, .ql-active .material-icons, .material-icons:hover{color:' + colors['select'] + '}.md-list {background-color:' + colors['fore'] + '}'
+		const colors = this.makeColors(themes[this.state.current_theme])
+		console.log(colors)
+		const style = 'body{background-color:' + colors['back'] + '} strong{color:' + colors['bold'] + '} em{color: ' + colors['italic'] + '} u{color:'+ colors['underline'] + '} h1{color:' + colors['h1'] + '} h2{color:' + colors['h2'] + '} #editor, h3, h4, h5, h6, .material-icons,.md-icon, #title, nav, .md-icon-text{color:'+ colors['normal'] +'} .md-text--theme-primary .md-icon, .md-text{color:' + colors['normal'] + '!important} .ql-snow a, .ql-active .material-icons, .material-icons:hover{color:' + colors['select'] + '}.md-list,#drawer, #editor, nav {background-color:' + colors['fore'] + '}'
 		css.innerHTML = style
+	}
+
+	setTheme(new_theme) {
+		this.setState({
+			colors: this.makeColors(themes[new_theme]),
+			current_theme: new_theme
+		})
 	}
 
 	componentDidMount() {
@@ -57,9 +71,8 @@ class NotePage extends React.Component {
 	render() {
 		return (
 			<div>
-				<style id="css"></style>
-				<NavBar colors={this.state.colors}/>
-			 	<Editor id="editor" colors={this.state.colors}/>
+				<NavBar colors={this.state.colors} setTheme={this.setTheme.bind(this)} />
+			 	<Editor id="editor" colors={this.state.colors} />
 			</div>
 		)
 	}

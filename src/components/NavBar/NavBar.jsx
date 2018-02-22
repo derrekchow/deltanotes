@@ -8,15 +8,13 @@ class NavBar extends React.Component {
 
   constructor(props) {
     super(props)
-    this.colors = Object(this.props.colors);
     this.state = {
       visible: false
     }
   }
-
   renderColors() {
     const options = []
-    const colors = this.colors
+    const colors = this.props.colors
     Object.keys(colors).map(function(key) {
       options.push(<option value={colors[key]}></option>)
     })
@@ -43,18 +41,15 @@ class NavBar extends React.Component {
     const login = <Button id="login" flat iconChildren="person">Login</Button>
     
     const navItems = ([
-      <ListItem primaryText="Solarized Light" />,
-      <ListItem primaryText="Solarized Dark" />,
-      <ListItem primaryText="Material Light" />,
-      <ListItem primaryText="Material Dark" />
+      <ListItem primaryText="Solarized Light" onClick={() => {this.props.setTheme("solarized_light")}}/>,
+      <ListItem primaryText="Solarized Dark" onClick={() => {this.props.setTheme("solarized_dark")}}/>,
+      <ListItem primaryText="Material Light" onClick={() => {this.props.setTheme("material_light")}}/>,
+      <ListItem primaryText="Material Dark" onClick={() => {this.props.setTheme("material_dark")}}/>
     ])
 
     return (
       <div>
-        <nav style={{
-            backgroundColor: this.colors['fore'],
-            color: this.colors['normal'],
-          }}>
+        <nav>
           <Button icon className="nav-item" onClick={this.openDrawerLeft}>
             menu
           </Button>
@@ -72,14 +67,8 @@ class NavBar extends React.Component {
             >
             color_lens
           </MenuButton>
-          <p id="title" className="nav-item">
-              <Link
-                to="/"
-                style={{
-                  color: this.colors['normal'],
-                  textDecoration: 'none',
-                }}
-              >
+          <p className="nav-item">
+              <Link id="title" to="/">
                 Delta Notes
               </Link>
           </p>
@@ -103,10 +92,6 @@ class NavBar extends React.Component {
         </nav>
         <Drawer
             id="drawer"
-            style={{
-              backgroundColor: this.colors['fore'],
-              padding:0
-            }}
             type={Drawer.DrawerTypes.TEMPORARY}
             visible={visible}
             onVisibilityChange={this.handleVisibility}

@@ -14,6 +14,7 @@ const MainLayout = ({ children }) => (
       <meta name="keywords" content="note, notes" />
     </Helmet>
     <div>
+      <style id="css"></style>
       {children()}
     </div>
   </div>

@@ -39,6 +39,7 @@ nav {
 	#title {
 		font-weight: bold;
 		font-size: 18px;
+		text-decoration: none;
 	}
 	#toolbar {
 		border: none;
@@ -48,6 +49,7 @@ nav {
 
 #drawer {
 	height:auto;
+	padding:0;
 	#drawer-header {
 		border-bottom: 1px solid rgba(0,0,0, 0.1);
 		z-index: 10;

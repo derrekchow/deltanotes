@@ -22,6 +22,11 @@ class Editor extends React.Component {
 
 	constructor(props) {
 		super(props)
+		this.state = { text: this.renderDelta() } // You can also pass a Quill Delta here
+		this.handleChange = this.handleChange.bind(this)
+	}
+
+	renderDelta() {
 		const color_list = this.props.colors
 		const delta_placeholder = [
 		  { insert: 'Foreground Base Color: ' + color_list['fore'] },
@@ -48,8 +53,7 @@ class Editor extends React.Component {
 		  { insert: 'Underline Text Color: ' + color_list['underline']},
 		  { insert: ' ▣\n', attributes: {color: color_list['underline']} },
 		]
-		this.state = { text: delta_placeholder, colors: color_list } // You can also pass a Quill Delta here
-		this.handleChange = this.handleChange.bind(this)
+		return delta_placeholder
 	}
 
 	componentDidMount() {
@@ -66,14 +70,11 @@ class Editor extends React.Component {
 				theme="snow"
 				ref="bodyInput"
 				value={this.state.text}
-				//onChange={this.handleChange} WTF?
+				onChange={this.handleChange} //WTF???
 				modules={Editor.modules}
 				bounds={'.ql-editor'}
 			>
-				<div id="editor" className="ql-editor" style={{
-					color: this.state.colors['normal'],
-					backgroundColor: this.state.colors['fore'],
-				}}>
+				<div id="editor" className="ql-editor">
 				</div>
 			</ReactQuill>
 		)
