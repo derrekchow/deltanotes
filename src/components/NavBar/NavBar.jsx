@@ -8,17 +8,48 @@ class NavBar extends React.Component {
 
   constructor(props) {
     super(props)
+    var notes = []
+    if (localStorage.getItem('notes') != undefined) {
+      notes = JSON.parse(localStorage.getItem('notes'))
+    } else {
+      notes = [{text: 'hello'}]
+      localStorage.setItem('notes', JSON.stringify(notes))
+    }
     this.state = {
-      visible: false
+      visible: false,
+      notes: notes
     }
   }
+
+  renderNotes() {
+    var notes_list = []
+    this.state.notes.map(function(item) {
+      notes_list.push(<ListItem 
+                        primaryText={item['text']} 
+                        secondaryText={"this is a test"}
+                        onClick={() => this.props.openNote(item['content'])}
+                      />)
+    })
+    return notes_list
+  }
+
   renderColors() {
-    const options = []
+    var options = []
     const colors = this.props.colors
     Object.keys(colors).map(function(key) {
       options.push(<option value={colors[key]}></option>)
     })
     return options
+  }
+
+  addNote() {
+    var notes = this.state.notes
+    notes.push({text: "test2"})
+    console.log(notes)
+    localStorage.setItem('notes', JSON.stringify(notes))
+    this.setState({
+      notes: notes
+    })
   }
 
   openDrawerLeft = () => {
@@ -37,10 +68,10 @@ class NavBar extends React.Component {
     const { visible } = this.state
 
     const closeBtn = <Button id="close" icon onClick={this.closeDrawer}>arrow_back</Button>
-    const addBtn = <Button id="add" raised iconChildren="create">New Note</Button>
+    const addBtn = <Button id="add" onClick={() => this.addNote()} raised iconChildren="create">New Note</Button>
     const login = <Button id="login" flat iconChildren="person">Login</Button>
     
-    const navItems = ([
+    const menuItems = ([
       <ListItem primaryText="Solarized Light" onClick={() => {this.props.setTheme("solarized_light")}}/>,
       <ListItem primaryText="Solarized Dark" onClick={() => {this.props.setTheme("solarized_dark")}}/>,
       <ListItem primaryText="Material Light" onClick={() => {this.props.setTheme("material_light")}}/>,
@@ -63,7 +94,7 @@ class NavBar extends React.Component {
             }}
             position={MenuButton.Positions.TOP_LEFT}
             
-            menuItems={navItems}
+            menuItems={menuItems}
             >
             color_lens
           </MenuButton>
@@ -74,10 +105,10 @@ class NavBar extends React.Component {
           </p>
           <div className="nav-item" id="toolbar">
               <select className="ql-color">
-                {this.renderColors()}
+                {this.renderColors() /* doesn't work */ } 
               </select>
               <select className="ql-background">
-                {this.renderColors()}
+                {this.renderColors() /* doesn't work */}
               </select>
 
               <button className="ql-header" value="1"></button>
@@ -95,7 +126,7 @@ class NavBar extends React.Component {
             type={Drawer.DrawerTypes.TEMPORARY}
             visible={visible}
             onVisibilityChange={this.handleVisibility}
-            navItems={navItems}
+            navItems={this.renderNotes()}
 
             header={(
               <div>

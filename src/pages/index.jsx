@@ -17,7 +17,13 @@ class NotePage extends React.Component {
 
 	constructor(props) {
 		super(props)
-		const current_theme = "material_dark"
+		var current_theme = ""
+		if(localStorage.getItem('current_theme') != undefined) {
+			current_theme = localStorage.getItem('current_theme')
+		} else {
+			current_theme = "solarized_light"
+			localStorage.setItem('current_theme', current_theme)
+		}
 		this.state = {
 			colors: this.makeColors(themes[current_theme]),
 			current_theme: current_theme
@@ -53,11 +59,12 @@ class NotePage extends React.Component {
 		const css = document.getElementById('css')
 		const colors = this.makeColors(themes[this.state.current_theme])
 		console.log(colors)
-		const style = 'body{background-color:' + colors['back'] + '} strong{color:' + colors['bold'] + '} em{color: ' + colors['italic'] + '} u{color:'+ colors['underline'] + '} h1{color:' + colors['h1'] + '} h2{color:' + colors['h2'] + '} #editor, h3, h4, h5, h6, .material-icons,.md-icon, #title, nav, .md-icon-text{color:'+ colors['normal'] +'} .md-text--theme-primary .md-icon, .md-text{color:' + colors['normal'] + '!important} .ql-snow a, .ql-active .material-icons, .material-icons:hover{color:' + colors['select'] + '}.md-list,#drawer, #editor, nav {background-color:' + colors['fore'] + '}'
+		const style = 'body{background-color:' + colors['back'] + '} strong{color:' + colors['bold'] + '} em{color: ' + colors['italic'] + '} u{color:'+ colors['underline'] + '} h1{color:' + colors['h1'] + '} h2{color:' + colors['h2'] + '} #editor, h3, h4, h5, h6, .material-icons,.md-icon, #title, nav, .md-icon-text{color:'+ colors['normal'] +'} .md-text--theme-primary .md-icon, .md-text{color:' + colors['normal'] + '!important} .ql-snow a, .ql-active .material-icons, .material-icons:hover{color:' + colors['select'] + '} ::selection{background-color:' + colors['select'] + '} .md-list,#drawer, #editor, nav {background-color:' + colors['fore'] + '}'
 		css.innerHTML = style
 	}
 
 	setTheme(new_theme) {
+		localStorage.setItem('current_theme', new_theme)
 		this.setState({
 			colors: this.makeColors(themes[new_theme]),
 			current_theme: new_theme

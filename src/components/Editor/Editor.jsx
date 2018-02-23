@@ -22,12 +22,13 @@ class Editor extends React.Component {
 
 	constructor(props) {
 		super(props)
-		this.state = { text: this.renderDelta() } // You can also pass a Quill Delta here
+		this.state = { text: this.renderDelta(this.props) } // You can also pass a Quill Delta here
 		this.handleChange = this.handleChange.bind(this)
+		this.renderDelta = this.renderDelta.bind(this)
 	}
 
-	renderDelta() {
-		const color_list = this.props.colors
+	renderDelta(props) {
+		const color_list = props.colors
 		const delta_placeholder = [
 		  { insert: 'Foreground Base Color: ' + color_list['fore'] },
 		  { insert: ' ▣\n', attributes: {color: color_list['fore']} },
@@ -54,6 +55,13 @@ class Editor extends React.Component {
 		  { insert: ' ▣\n', attributes: {color: color_list['underline']} },
 		]
 		return delta_placeholder
+	}
+
+	componentWillReceiveProps(props) {
+		console.log(props)
+		this.setState({ 
+			text: this.renderDelta(props) 
+		})
 	}
 
 	componentDidMount() {
