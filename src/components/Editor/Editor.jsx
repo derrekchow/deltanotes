@@ -22,46 +22,8 @@ class Editor extends React.Component {
 
 	constructor(props) {
 		super(props)
-		this.state = { text: this.renderDelta(this.props) } // You can also pass a Quill Delta here
+		this.state = { text: this.props.content } // You can also pass a Quill Delta here
 		this.handleChange = this.handleChange.bind(this)
-		this.renderDelta = this.renderDelta.bind(this)
-	}
-
-	renderDelta(props) {
-		const color_list = props.colors
-		const delta_placeholder = [
-		  { insert: 'Foreground Base Color: ' + color_list['fore'] },
-		  { insert: ' ▣\n', attributes: {color: color_list['fore']} },
-
-		  { insert: 'Background Base Color: ' + color_list['back']},
-		  { insert: ' ▣\n', attributes: {color: color_list['back']} },
-
-		  { insert: 'Normal Text Color: ' + color_list['normal']},
-		  { insert: ' ▣\n', attributes: {color: color_list['normal']} },
-
-		  { insert: 'Heading 1 Color: ' + color_list['h1']},
-		  { insert: ' ▣\n', attributes: {color: color_list['h1']} },
-
-		  { insert: 'Heading 2 Color: ' + color_list['h2']},
-		  { insert: ' ▣\n', attributes: {color: color_list['h2']} },
-
-		  { insert: 'Bold Text Color: ' + color_list['bold']},
-		  { insert: ' ▣\n', attributes: {color: color_list['bold']} },
-
-		  { insert: 'Italic Text Color: ' + color_list['italic']},
-		  { insert: ' ▣\n', attributes: {color: color_list['italic']} },
-
-		  { insert: 'Underline Text Color: ' + color_list['underline']},
-		  { insert: ' ▣\n', attributes: {color: color_list['underline']} },
-		]
-		return delta_placeholder
-	}
-
-	componentWillReceiveProps(props) {
-		console.log(props)
-		this.setState({ 
-			text: this.renderDelta(props) 
-		})
 	}
 
 	componentDidMount() {
@@ -70,6 +32,9 @@ class Editor extends React.Component {
 
 	handleChange(value) {
 		this.setState({ text: value })
+	}
+	componentWillReceiveProps(props) {
+		this.setState({text: props.content})
 	}
 
 	render() {

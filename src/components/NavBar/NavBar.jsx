@@ -12,24 +12,29 @@ class NavBar extends React.Component {
     if (localStorage.getItem('notes') != undefined) {
       notes = JSON.parse(localStorage.getItem('notes'))
     } else {
-      notes = [{text: 'hello'}]
+      notes = [{
+                title: "hello", 
+                content: this.renderDelta(),
+                theme: "material_dark"
+              }]
       localStorage.setItem('notes', JSON.stringify(notes))
     }
     this.state = {
       visible: false,
       notes: notes
     }
+
   }
 
   renderNotes() {
     var notes_list = []
     this.state.notes.map(function(item) {
       notes_list.push(<ListItem 
-                        primaryText={item['text']} 
+                        primaryText={item['title']} 
                         secondaryText={"this is a test"}
-                        onClick={() => this.props.openNote(item['content'])}
+                        onClick={() => {this.props.setContent(item)}}
                       />)
-    })
+    }.bind(this))
     return notes_list
   }
 
@@ -42,10 +47,43 @@ class NavBar extends React.Component {
     return options
   }
 
+  renderDelta() {
+    const color_list = this.props.colors
+    const delta_placeholder = [
+      { insert: 'Foreground Base Color: ' + color_list['fore'] },
+      { insert: ' ▣\n', attributes: {color: color_list['fore']} },
+
+      { insert: 'Background Base Color: ' + color_list['back']},
+      { insert: ' ▣\n', attributes: {color: color_list['back']} },
+
+      { insert: 'Normal Text Color: ' + color_list['normal']},
+      { insert: ' ▣\n', attributes: {color: color_list['normal']} },
+
+      { insert: 'Heading 1 Color: ' + color_list['h1']},
+      { insert: ' ▣\n', attributes: {color: color_list['h1']} },
+
+      { insert: 'Heading 2 Color: ' + color_list['h2']},
+      { insert: ' ▣\n', attributes: {color: color_list['h2']} },
+
+      { insert: 'Bold Text Color: ' + color_list['bold']},
+      { insert: ' ▣\n', attributes: {color: color_list['bold']} },
+
+      { insert: 'Italic Text Color: ' + color_list['italic']},
+      { insert: ' ▣\n', attributes: {color: color_list['italic']} },
+
+      { insert: 'Underline Text Color: ' + color_list['underline']},
+      { insert: ' ▣\n', attributes: {color: color_list['underline']} },
+    ]
+    return delta_placeholder
+  }
+
   addNote() {
     var notes = this.state.notes
-    notes.push({text: "test2"})
-    console.log(notes)
+    notes.push({
+                title: "test2", 
+                content: this.renderDelta(),
+                theme: "material_dark"
+              })
     localStorage.setItem('notes', JSON.stringify(notes))
     this.setState({
       notes: notes

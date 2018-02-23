@@ -24,9 +24,12 @@ class NotePage extends React.Component {
 			current_theme = "solarized_light"
 			localStorage.setItem('current_theme', current_theme)
 		}
+
+		const colors = this.makeColors(themes[current_theme])
 		this.state = {
-			colors: this.makeColors(themes[current_theme]),
-			current_theme: current_theme
+			colors: colors,
+			current_theme: current_theme,
+			content: ""
 		}
 	}
 
@@ -58,16 +61,23 @@ class NotePage extends React.Component {
 	changeTheme() {
 		const css = document.getElementById('css')
 		const colors = this.makeColors(themes[this.state.current_theme])
-		console.log(colors)
 		const style = 'body{background-color:' + colors['back'] + '} strong{color:' + colors['bold'] + '} em{color: ' + colors['italic'] + '} u{color:'+ colors['underline'] + '} h1{color:' + colors['h1'] + '} h2{color:' + colors['h2'] + '} #editor, h3, h4, h5, h6, .material-icons,.md-icon, #title, nav, .md-icon-text{color:'+ colors['normal'] +'} .md-text--theme-primary .md-icon, .md-text{color:' + colors['normal'] + '!important} .ql-snow a, .ql-active .material-icons, .material-icons:hover{color:' + colors['select'] + '} ::selection{background-color:' + colors['select'] + '} .md-list,#drawer, #editor, nav {background-color:' + colors['fore'] + '}'
 		css.innerHTML = style
 	}
 
 	setTheme(new_theme) {
 		localStorage.setItem('current_theme', new_theme)
+		const colors = this.makeColors(themes[new_theme])
 		this.setState({
-			colors: this.makeColors(themes[new_theme]),
-			current_theme: new_theme
+			colors: colors,
+			current_theme: new_theme,
+		})
+	}
+
+	setContent(note) {
+		this.setTheme(note['theme'])
+		this.setState({
+			content: note['content']
 		})
 	}
 
@@ -78,8 +88,9 @@ class NotePage extends React.Component {
 	render() {
 		return (
 			<div>
-				<NavBar colors={this.state.colors} setTheme={this.setTheme.bind(this)} />
-			 	<Editor id="editor" colors={this.state.colors} />
+				<NavBar colors={this.state.colors} setContent={this.setContent.bind(this)} setTheme={this.setTheme.bind(this)} />
+
+			 	<Editor id="editor" content={this.state.content} colors={this.state.colors} />
 			</div>
 		)
 	}
