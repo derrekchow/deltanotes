@@ -15,7 +15,8 @@ class NavBar extends React.Component {
       notes = [{
                 title: "hello", 
                 content: this.renderDelta(),
-                theme: "material_dark"
+                theme: "material_dark",
+                active: true
               }]
       localStorage.setItem('notes', JSON.stringify(notes))
     }
@@ -30,10 +31,11 @@ class NavBar extends React.Component {
     var notes_list = []
     this.state.notes.map(function(item) {
       notes_list.push(<ListItem 
-                        primaryText={item['title']} 
-                        secondaryText={"this is a test"}
-                        onClick={() => {this.props.setContent(item)}}
-                      />)
+                      primaryText={item['title']} 
+                      secondaryText={"this is a test"}
+                      onClick={() => {this.props.setContent(item)}}
+                      className={item['active'] ? "list-item--active" : "list-item"}
+                    />)
     }.bind(this))
     return notes_list
   }
@@ -82,7 +84,8 @@ class NavBar extends React.Component {
     notes.push({
                 title: "test2", 
                 content: this.renderDelta(),
-                theme: "material_dark"
+                theme: "material_dark",
+                active: true
               })
     localStorage.setItem('notes', JSON.stringify(notes))
     this.setState({
