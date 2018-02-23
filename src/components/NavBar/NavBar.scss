@@ -11,8 +11,8 @@
 @include react-md-papers;
 @include react-md-layovers;
 
-.md-btn--color-primary-active {
-	background-color:rgba(0, 0, 0, 0.1) !important;
+.md-btn:hover, .md-list-item:hover,  {
+	cursor: pointer;
 }
 
 nav {
@@ -54,6 +54,7 @@ nav {
 		border-bottom: 1px solid rgba(0,0,0, 0.1);
 		z-index: 10;
 		height:3.6em;
+		margin:0;
 		#close {
 			position: absolute;
 			right:-2.3em;
@@ -66,6 +67,20 @@ nav {
 		#login {
 			margin-left: 1em;
 		}
+	}
+	#drawer-nav-items {
+		padding-bottom:7em;
+	}
+	.note-title {
+		background-color: rgba(0, 0, 0, 0.1);
+		border: none;
+		width:50%;
+	}
+	::placeholder {
+		opacity: 1; 
+	}
+	.md-list-item {
+		border-bottom:1px solid rgba(0, 0, 0, 0.1);
 	}
 }
 

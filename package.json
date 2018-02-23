@@ -7,10 +7,11 @@
     "gatsby": "^1.9.202",
     "gatsby-link": "^1.6.37",
     "gatsby-plugin-react-helmet": "^2.0.5",
+    "gatsby-plugin-sass": "^1.0.15",
     "react-helmet": "^5.2.0",
-    "react-quill": "^1.2.4",
+    "react-input-autosize": "^2.2.1",
     "react-md": "^1.2.11",
-    "gatsby-plugin-sass": "^1.0.15"
+    "react-quill": "^1.2.4"
   },
   "keywords": [
     "gatsby"

@@ -8,34 +8,35 @@ class NavBar extends React.Component {
 
   constructor(props) {
     super(props)
+    this.default_note = [{
+      title: "My Note", 
+      content: this.renderDelta(),
+      theme: "material_dark",
+      active: true
+    }]
     var notes = []
     if (localStorage.getItem('notes') != undefined) {
       notes = JSON.parse(localStorage.getItem('notes'))
     } else {
-      notes = [{
-                title: "hello", 
-                content: this.renderDelta(),
-                theme: "material_dark",
-                active: true
-              }]
+      notes = this.default_note
       localStorage.setItem('notes', JSON.stringify(notes))
     }
     this.state = {
       visible: false,
       notes: notes
     }
-
+    this.props.setContent(notes[0])
   }
 
   renderNotes() {
     var notes_list = []
     this.state.notes.map(function(item) {
-      notes_list.push(<ListItem 
-                      primaryText={item['title']} 
-                      secondaryText={"this is a test"}
-                      onClick={() => {this.props.setContent(item)}}
-                      className={item['active'] ? "list-item--active" : "list-item"}
-                    />)
+      notes_list.push(
+        <ListItem 
+          primaryText={<input placeholder={item['title']} className="note-title" type="text" onClick={((e) => e.stopPropagation())}/>} 
+          secondaryText={"this is a test"}
+          onClick={() => {this.props.setContent(item)}}
+        />)
     }.bind(this))
     return notes_list
   }
@@ -81,12 +82,7 @@ class NavBar extends React.Component {
 
   addNote() {
     var notes = this.state.notes
-    notes.push({
-                title: "test2", 
-                content: this.renderDelta(),
-                theme: "material_dark",
-                active: true
-              })
+    notes.push(this.default_note[0])
     localStorage.setItem('notes', JSON.stringify(notes))
     this.setState({
       notes: notes
